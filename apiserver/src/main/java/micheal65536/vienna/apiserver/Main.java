@@ -18,11 +18,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.jetbrains.annotations.NotNull;
 
+import micheal65536.vienna.apiserver.routes.AccountRouter;
 import micheal65536.vienna.apiserver.routes.AuthenticatedRouter;
 import micheal65536.vienna.apiserver.routes.ResourcePacksRouter;
 import micheal65536.vienna.apiserver.routes.SigninRouter;
 import micheal65536.vienna.apiserver.routing.Application;
 import micheal65536.vienna.apiserver.routing.Router;
+import micheal65536.vienna.apiserver.utils.AccountInitializer;
 import micheal65536.vienna.apiserver.utils.BuildplateInstanceRequestHandler;
 import micheal65536.vienna.apiserver.utils.BuildplateInstancesManager;
 import micheal65536.vienna.db.DatabaseException;
@@ -126,6 +128,9 @@ public class Main
 		}
 		LogManager.getLogger().info("Connected to database");
 
+		// Initialize accounts collection in database
+		AccountInitializer.initializeAccounts(earthDB);
+
 		LogManager.getLogger().info("Connecting to event bus");
 		EventBusClient eventBusClient;
 		try
@@ -168,9 +173,10 @@ public class Main
 
 		BuildplateInstancesManager buildplateInstancesManager = new BuildplateInstancesManager(eventBusClient);
 
-		router.addSubRouter("/auth/api/v1.1/*", 3, new SigninRouter());    // for some reason MCE uses the base path from the previous session when switching users without restarting the app
+		router.addSubRouter("/auth/api/v1.1/*", 3, new AccountRouter(earthDB));
+		router.addSubRouter("/auth/api/v1.1/*", 3, new SigninRouter(earthDB));    // for some reason MCE uses the base path from the previous session when switching users without restarting the app
 		router.addSubRouter("/auth/api/v1.1/*", 3, new AuthenticatedRouter(earthDB, staticData, eventBusClient, objectStoreClient, buildplateInstancesManager));
-		router.addSubRouter("/api/v1.1/*", 2, new SigninRouter());
+		router.addSubRouter("/api/v1.1/*", 2, new SigninRouter(earthDB));
 		router.addSubRouter("/api/v1.1/*", 2, new ResourcePacksRouter());
 
 		BuildplateInstanceRequestHandler.start(earthDB, eventBusClient, objectStoreClient, buildplateInstancesManager, staticData.catalog);
