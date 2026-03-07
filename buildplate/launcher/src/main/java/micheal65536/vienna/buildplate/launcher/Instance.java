@@ -49,7 +49,7 @@ import java.util.zip.ZipInputStream;
 
 public class Instance
 {
-	private static final long HOST_PLAYER_CONNECT_TIMEOUT = 20000;
+	private static final long HOST_PLAYER_CONNECT_TIMEOUT = 150000;
 
 	@NotNull
 	public static Instance run(@NotNull EventBusClient eventBusClient, @Nullable String playerId, @NotNull String buildplateId, @NotNull BuildplateSource buildplateSource, @NotNull String instanceId, boolean survival, boolean night, boolean saveEnabled, @NotNull InventoryType inventoryType, @Nullable Long shutdownTime, @NotNull String publicAddress, int port, int serverInternalPort, @NotNull String javaCmd, @NotNull File fountainBridgeJar, @NotNull File serverTemplateDir, @NotNull String fabricJarName, @NotNull File connectorPluginJar, @NotNull File baseDir, @NotNull String eventBusConnectionString)
