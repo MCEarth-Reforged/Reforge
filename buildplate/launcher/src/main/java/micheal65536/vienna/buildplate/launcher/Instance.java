@@ -349,14 +349,6 @@ public class Instance
 				this.logger.info("Server is ready");
 				this.startBridgeProcess();
 				this.sendEventBusInstanceStatusNotification("ready");
-				if (this.shutdownTime != null)
-				{
-					this.startShutdownTimer();
-				}
-				else
-				{
-					this.startHostPlayerConnectTimeout();
-				}
 			}
 			case "saved" ->
 			{
