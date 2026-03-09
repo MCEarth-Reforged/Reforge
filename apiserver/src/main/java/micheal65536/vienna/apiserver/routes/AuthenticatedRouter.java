@@ -6,7 +6,6 @@ import micheal65536.vienna.apiserver.routing.Filter;
 import micheal65536.vienna.apiserver.routing.Request;
 import micheal65536.vienna.apiserver.routing.Response;
 import micheal65536.vienna.apiserver.routing.Router;
-import micheal65536.vienna.apiserver.routes.SigninRouter;
 import micheal65536.vienna.apiserver.utils.BuildplateInstancesManager;
 import micheal65536.vienna.db.EarthDB;
 import micheal65536.vienna.eventbus.client.EventBusClient;
@@ -28,12 +27,8 @@ public class AuthenticatedRouter extends Router
 			}
 			String sessionToken = parts[1];
 
-			// Check session token and get player ID
-			String playerId = SigninRouter.validateSessionToken(sessionToken);
-			if (playerId == null)
-			{
-				return Response.unauthorized();
-			}
+			// TODO: check session token and properly get player ID
+			String playerId = sessionToken;
 
 			request.addContextData("playerId", playerId);
 			return null;
