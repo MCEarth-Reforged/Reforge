@@ -6,8 +6,6 @@ import micheal65536.vienna.apiserver.routing.Filter;
 import micheal65536.vienna.apiserver.routing.Request;
 import micheal65536.vienna.apiserver.routing.Response;
 import micheal65536.vienna.apiserver.routing.Router;
-import micheal65536.vienna.apiserver.routes.player.CommerceRouter;
-import micheal65536.vienna.apiserver.routes.player.PlayerRouter;
 import micheal65536.vienna.apiserver.utils.BuildplateInstancesManager;
 import micheal65536.vienna.db.EarthDB;
 import micheal65536.vienna.eventbus.client.EventBusClient;
@@ -59,6 +57,5 @@ public class AuthenticatedRouter extends Router
 		this.addSubRouter("/*", 0, new PlayerRouter(earthDB, eventBusClient, objectStoreClient, buildplateInstancesManager, staticData));
 		this.addSubRouter("/*", 0, new CatalogRouter(staticData.catalog));
 		this.addSubRouter("/*", 0, new EnvironmentSettingsRouter());
-		this.addSubRouter("/*", 0, new CommerceRouter(earthDB));
 	}
 }
